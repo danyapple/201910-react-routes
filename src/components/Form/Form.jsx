@@ -24,6 +24,27 @@ export default class Form extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const params = new URLSearchParams(this.props.location.search);
+
+    const clear = params.get('clear');
+    
+    if (clear === 'true') return;
+
+    const name = params.get('name');
+    const description = params.get('description');
+    const role = params.get('role');
+    const submit = params.get('submit');
+
+    this.setState({
+      name: name || '',
+      description: description || '',
+      role: role || USER_ROLES[0].id
+    }, ()=> {
+      submit === 'true' && this.onSubmit();
+    });
+  };
+
   onInputChange = (event) => {
     const { name, value } = event.target;
     
@@ -53,6 +74,10 @@ export default class Form extends React.Component {
         role
       }
     })
+  }
+  handleBack = (e) => {
+    e.preventDefault();
+    this.props.history.goBack();
   }
 
   render() {
@@ -104,7 +129,7 @@ export default class Form extends React.Component {
                 ))
               }
             </div>
-
+            <button onClick={this.handleBack}>Atrás</button>
             <button type='submit'>Guardar</button>
           </form>
 

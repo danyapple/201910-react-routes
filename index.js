@@ -27,9 +27,9 @@ class App extends Component {
   };
 }
 
-const Home = (props) => {
+const Home = ({ history }) => {
   const goToForm = () => {
-    props.history.push("/form");
+    history.push("/form");
   };
   return <button onClick={goToForm}>Go!</button>
 };
